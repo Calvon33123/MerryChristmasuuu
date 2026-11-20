@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Christmas Case</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="snow-container"></div>
+
+    <!-- Audio Toggle Button -->
+    <button id="audio-toggle" class="fixed top-4 right-4 z-50 glass-btn rounded-full px-4 py-2 text-xs md:text-sm font-typewriter tracking-widest text-yellow-400 flex items-center gap-2">
+        <span>🔊</span> <span id="audio-status">SOUND: ON</span>
+    </button>
+        
+
+
+    <div id="view-landing" class="view active items-center justify-center">
+        <div class="text-center animate-slide-up max-w-2xl mx-auto z-10 glass-panel p-8 md:p-12 rounded-2xl border border-yellow-500/30">
+            <div class="inline-block bg-red-900/60 border border-red-500 text-red-200 font-typewriter text-xs px-3 py-1 rounded-full uppercase tracking-widest mb-4">
+                Top Secret Epstine Files #6969
+            </div>
+            <h1 class="text-4xl md:text-6xl font-mystery text-yellow-400 mb-6 drop-shadow-md leading-tight">🎄<br>CRISMAS PARTY<br>MYSTERY</h1>
+            <p class="text-lg md:text-xl font-light text-gray-300 mb-8 max-w-lg mx-auto">
+                Kinsa kaha ako na bunutan no?.<br>
+                <span class="text-yellow-200/80 font-typewriter text-sm">Mission ninyo tanan kay e deduce kung kinsa.</span>
+            </p>
+            
+            <div class="mb-10 text-6xl float-animation">
+                🎁
+            </div>
+
+            <button onclick="navigate('intro')" class="glass-btn text-yellow-400 font-typewriter text-lg px-8 py-4 rounded-xl glow-effect uppercase tracking-widest w-full md:w-auto font-bold hover:text-white">
+            LET THE INVESTIGATION BEGIN MGA SUPER HEROES
+            </button>
+        </div>
+    </div>
+
+    <div id="view-intro" class="view items-center justify-center">
+        <div class="max-w-2xl w-full mx-auto animate-slide-up">
+            <div class="glass-panel p-6 md:p-10 rounded-2xl relative border-t-4 border-t-red-600">
+                <div class="absolute -top-3 -right-3 bg-red-700 text-white font-typewriter text-xs px-3 py-1 rounded shadow-lg rotate-6 uppercase tracking-wider">
+                    CLASSIFIED
+                </div>
+                
+                <h2 class="text-2xl md:text-3xl font-mystery text-white mb-6 border-b border-gray-700 pb-4 flex items-center gap-3">
+                    📁 CASE FILE: MYSTERY OF THE MISSING GIFT
+                </h2>
+                
+                <div class="font-typewriter text-gray-300 space-y-5 text-sm md:text-base leading-relaxed">
+                    <p><span class="text-red-400 font-bold">STATUS:</span> ACTIVE INVESTIGATION</p>
+                    <p>Somewhere among the people sa kani nga tapok is maka dawat sa ako gift.</p>
+                    <p class="p-3 bg-red-950/40 border-l-2 border-red-500 rounded italic text-gray-200">
+                        "I know kung kinsa kay ako may ga himo ani nga pakulo. Kaylangan nga mahibal-an ninyo kung kinsa ang akong nabunutan. So, e solve ninyo tanan mga leads para ma reveal kung kinsa siya."
+                    </p>
+                    <p>6 ka clues ang e provide nako para makahibalo mo kinsa nga "SUPER HERO" ang ako nabunutan.</p>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <button onclick="initDashboard()" class="glass-btn text-white font-typewriter text-base px-8 py-3.5 rounded-lg w-full border-red-700 hover:bg-red-900/40 font-bold uppercase tracking-wider">
+                        Begin Investigation 🕵️‍♂️
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-dashboard" class="view">
+        <div class="max-w-6xl mx-auto w-full flex-grow flex flex-col space-y-6 animate-fade-in relative">
+            
+            <!-- Hidden Golden Bauble for Lead #04 -->
+            <button id="hidden-ornament" type="button" class="hidden-selfie fixed top-[38%] right-3 z-40 hidden" title="Found me! Tap to inspect this hidden clue." aria-label="Find the hidden picture" onclick="solveTask(3)">
+                <img src="assets/images/lumine.jpg" alt="Tiny hidden picture" />
+            </button>
+
+            <!-- Header Progress Bar -->
+            <div class="glass-panel p-4 rounded-xl flex flex-col md:flex-row justify-between items-center font-typewriter gap-4 border-yellow-500/20">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">🔎</span>
+                    <div>
+                        <div class="text-xs text-gray-400">CASE PROGRESS</div>
+                        <div class="text-yellow-400 font-bold text-lg">
+                            <span id="clue-count">0</span> / 6 CLUES DISCOVERED
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full md:w-48 bg-gray-800 h-2.5 rounded-full overflow-hidden border border-gray-700">
+                    <div id="progress-bar-fill" class="bg-gradient-to-r from-yellow-600 to-yellow-400 h-full w-0 transition-all duration-500"></div>
+                </div>
+
+                <div>
+                    <button id="btn-final-guess" onclick="startFinalGuess()" class="glass-btn px-5 py-2.5 rounded-lg text-gray-500 text-sm font-bold tracking-wider" disabled>
+                        🔒 FINAL GUESS LOCKED
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column: Suspect Board & Evidence Board -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Suspects Grid -->
+                    <div class="glass-panel p-5 rounded-xl border-yellow-500/20">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-mystery text-yellow-400 flex items-center gap-2">
+                                <span>🎁</span> SUSPECT BOARD (12 SUSPECTS)
+                            </h3>
+                            <span class="text-[11px] font-typewriter text-gray-400">Click suspect to view dossier</span>
+                        </div>
+                        <div id="suspects-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Evidence Connection Board -->
+                    <div class="glass-panel p-5 rounded-xl border-yellow-500/20">
+                        <h3 class="text-xl font-mystery text-yellow-400 flex items-center gap-2 mb-4">
+                            <span>🕵️</span> CONNECT THE EVIDENCE
+                        </h3>
+                        <div id="evidence-board" class="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[140px]">
+                            <div id="evidence-empty-msg" class="text-center text-gray-400 font-typewriter text-xs w-full col-span-full py-8 border border-dashed border-gray-700 rounded-lg">
+                                No evidence connected yet. Resolve active leads on the right to place evidence cards on this board.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: 6 Interactive Leads -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-mystery text-yellow-400 flex items-center gap-2">
+                        <span>📋</span> ACTIVE LEADS (6 TASKS)
+                    </h3>
+                    
+                    <div id="tasks-container" class="space-y-3">
+                        <!-- Lead 1 -->
+                        <div class="glass-panel p-3.5 rounded-xl cursor-pointer hover:border-yellow-500 transition-all border-l-4 border-l-yellow-500" onclick="openTask(0)">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-white text-sm">LEAD #01: The Super Hero Profile</h4>
+                                <span class="text-xs font-typewriter bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded" id="badge-task-0">Inspect</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Personality & Hobby Dossier</p>
+                        </div>
+
+                        <!-- Lead 2 -->
+                        <div class="glass-panel p-3.5 rounded-xl cursor-pointer hover:border-yellow-500 transition-all border-l-4 border-l-yellow-500" onclick="openTask(1)">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-white text-sm">LEAD #02: The Coded Envelope</h4>
+                                <span class="text-xs font-typewriter bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded" id="badge-task-1">Decrypt</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Christmas Cipher Puzzle</p>
+                        </div>
+
+                        <!-- Lead 3 -->
+                        <div class="glass-panel p-3.5 rounded-xl cursor-pointer hover:border-yellow-500 transition-all border-l-4 border-l-yellow-500" onclick="openTask(2)">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-white text-sm">LEAD #03: The Nostalgic Photo</h4>
+                                <span class="text-xs font-typewriter bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded" id="badge-task-2">Flip Photo</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Polaroid Memory Note</p>
+                        </div>
+
+                        <!-- Lead 4 -->
+                        <div class="glass-panel p-3.5 rounded-xl border-l-4 border-l-amber-600 bg-amber-950/10">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-white text-sm">LEAD #04: Hidden Golden Bauble</h4>
+                                <span class="text-xs font-typewriter bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded" id="badge-task-3">Search Page</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Find the tiny picture of me hidden somewhere on the screen!</p>
+                        </div>
+
+                        <!-- Lead 5 -->
+                        <div class="glass-panel p-3.5 rounded-xl cursor-pointer hover:border-yellow-500 transition-all border-l-4 border-l-yellow-500" onclick="openTask(4)">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-white text-sm">LEAD #05: The Odd Ornament Out</h4>
+                                <span class="text-xs font-typewriter bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded" id="badge-task-4">Solve</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Identify the anomaly that doesn't belong</p>
+                        </div>
+
+                        <!-- Lead 6 -->
+                        <div class="glass-panel p-3.5 rounded-xl cursor-pointer hover:border-yellow-500 transition-all border-l-4 border-l-yellow-500" onclick="openTask(5)">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-white text-sm">LEAD #06: Calvin's Cannon Event</h4>
+                                <span class="text-xs font-typewriter bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded" id="badge-task-5">Timeline Assessment</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Timeline analysis of the event</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-guess" class="view items-center justify-center">
+        <div class="max-w-4xl w-full mx-auto text-center space-y-6 animate-slide-up">
+            <div class="inline-block bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 px-4 py-1 rounded-full font-typewriter text-xs uppercase tracking-widest">
+                Final Investigation Phase
+            </div>
+            <h2 class="text-3xl md:text-5xl font-mystery text-yellow-400">🎄 MAKE YOUR FINAL GUESS</h2>
+            <p class="text-sm md:text-base font-typewriter text-gray-300 max-w-xl mx-auto">
+                You've gathered the evidence and followed the clues.<br>
+                Select who you believe is the secret gift exchange recipient:
+            </p>
+            
+            <div id="guess-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-6">
+                <!-- Populated via JS -->
+            </div>
+
+            <div class="pt-4">
+                <button onclick="navigate('dashboard')" class="text-xs text-gray-400 underline font-typewriter hover:text-white">
+                    ← Review Case Board and Evidence
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-reveal" class="view items-center justify-center text-center">
+        <div class="max-w-2xl w-full mx-auto animate-slide-up z-20 glass-panel p-8 md:p-12 rounded-3xl border-2 border-yellow-500 bg-slate-950/90 shadow-2xl">
+            <div class="text-5xl mb-2 animate-bounce">🎁</div>
+            <h2 class="text-4xl md:text-6xl font-mystery text-green-400 mb-2 drop-shadow-md">CASE SOLVED!</h2>
+            <p class="text-xl md:text-2xl font-typewriter text-white mb-6">YOU FOUND THEM!</p>
+            
+            <p class="text-xs md:text-sm text-yellow-400/80 mb-2 font-typewriter uppercase tracking-widest">THE SUPER HERO AKO NABUBUTAN IS...</p>
+            
+            <div class="text-6xl md:text-8xl font-mystery text-yellow-300 font-extrabold mb-8 animate-fade-in tracking-wide drop-shadow-[0_0_25px_rgba(234,179,8,0.6)]" style="animation-delay: 0.8s; opacity: 0; animation-fill-mode: forwards;">
+                <span id="reveal-name">JAS</span> 🎄
+            </div>
+            
+            <div class="animate-fade-in font-typewriter text-gray-200 text-sm md:text-base p-6 bg-white/5 rounded-xl border border-white/10 text-left space-y-4" style="animation-delay: 2s; opacity: 0; animation-fill-mode: forwards;">
+                <div class="text-xs text-yellow-400 font-bold border-b border-gray-700 pb-2 flex justify-between">
+                    <span>🔓 SECRET FILE UNLOCKED</span>
+                    <span>CONFIDENTIAL</span>
+                </div>
+                <p id="reveal-message" class="italic text-gray-300"></p>
+            </div>
+
+            <div class="mt-8 animate-fade-in" style="animation-delay: 3s; opacity: 0; animation-fill-mode: forwards;">
+                <button onclick="navigate('dashboard')" class="glass-btn px-6 py-2.5 rounded-lg text-xs font-typewriter text-gray-300 hover:text-white">
+                    Return to Evidence Board
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-overlay">
+        <div class="glass-panel max-w-md w-full rounded-2xl p-6 relative animate-slide-up border-t-4 border-t-yellow-500">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">&times;</button>
+            <h3 id="modal-title" class="text-xl font-mystery text-yellow-400 mb-3">Title</h3>
+            <div id="modal-content" class="text-gray-300 font-typewriter text-xs md:text-sm mb-6 space-y-3">
+                Content
+            </div>
+            <div id="modal-actions" class="flex justify-end gap-2">
+                <!-- Action buttons -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
